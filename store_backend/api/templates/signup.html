@@ -40,7 +40,7 @@
             <!-- Login Content -->
             <div class="flex justify-between space-x-5 flex items-center min-w-max">
                 <button id="login-button">
-                    <a href="#">Đăng nhập</a>
+                    <a href="/login/">Đăng nhập</a>
                 </button>
                 <button id="sign-up-button" class="text-white px-5 py-3 rounded-full ease-in">
                     <a href="#">Đăng ký</a>
@@ -52,8 +52,18 @@
     <!-- Sign Up Form -->
     <div class="flex items-center justify-center h-screen">
         <div class="bg-white p-8 shadow-lg rounded-lg max-w-lg w-full">
-            <form action="" class="space-y-4">
+            <form action="/signup/" class="space-y-4" method="post">
                 <h2 class="text-lg font-semibold">Đăng ký</h2>
+                {% csrf_token %}
+                {% if messages %}
+                <div class="alert alert-success flex justify-center text-red-600">
+                    <ul class="mb-0">
+                        {% for item in messages %}
+                            <li>{{item}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
                 <div>
                     <div class="flex w-full">
                         <label for="first-name" class="flex-1 mr-2">Họ (tên đệm)</label>
@@ -72,7 +82,7 @@
 
                 <div>
                     <label for="email" class="block my-1 font-medium">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Nhập email" class="w-full p-2 border rounded">
+                    <input type="email" id="email" name="email" placeholder="Nhập số điện thoại" class="w-full p-2 border rounded">
                 </div>
                 
                 <div>

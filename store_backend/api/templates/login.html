@@ -27,22 +27,6 @@
             transform: scale(0.9);
         }
 
-        #menu-button:hover > a{
-            color: #474BEB;
-            text-decoration: underline;
-        }
-
-        #menu-drop > li{
-            padding: 15px 20px;
-        }
-
-        #menu-button:hover #menu-drop{
-            display: block;
-        }
-
-        #menu-drop > li:active{
-            background-color: gray;
-        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans text-sm max-h-max">
@@ -60,7 +44,7 @@
                     <a href="#">Đăng nhập</a>
                 </button>
                 <button id="sign-up-button" class="text-white px-5 py-3 rounded-full ease-in">
-                    <a href="#">Đăng ký</a>
+                    <a href="/signup/">Đăng ký</a>
                 </button>
             </div>
         </div>
@@ -69,11 +53,22 @@
     <!-- Login Form -->
     <div class="flex items-center justify-center h-screen">
         <div class="bg-white p-10 shadow-lg rounded-lg max-w-lg w-full">
-            <form action="" class="space-y-10">
+            <form action="/login/" class="space-y-10" method="post">
+                
                 <h2 class="text-lg font-semibold">Đăng nhập</h2>
+                {% csrf_token %}
+                {% if messages %}
+                <div class="alert alert-success flex justify-center text-red-600">
+                    <ul class="mb-0">
+                        {% for item in messages %}
+                            <li>{{item}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
                 <div>
                     <label for="username" class="block my-1 font-medium">Tên tài khoản</label>
-                    <input type="text" id="username" name="username" placeholder="Email hoặc số điện thoại" class="w-full p-2 border rounded">
+                    <input type="text" id="username" name="username" placeholder="Nhập Email đã đăng ký" class="w-full p-2 border rounded">
                 </div>
                 <div>
                     <label for="password" class="block my-1 font-medium">Mật khẩu</label>
