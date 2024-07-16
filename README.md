@@ -1,5 +1,9 @@
-Thêm/Sửa/Xoá sản phẩm: Done!\n
-Bán sản phẩm: Done!\n
-Doanh thu: Done!\n
-Đăng nhập, đăng ký, đăng xuất: Done!\n
+Thêm/Sửa/Xoá sản phẩm: Done!
+
+Bán sản phẩm: Done!
+
+Doanh thu: Done!
+
+Đăng nhập, đăng ký, đăng xuất: Done!
+
 ...
