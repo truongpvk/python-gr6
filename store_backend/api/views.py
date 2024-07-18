@@ -133,3 +133,6 @@ def product_sell(request, product_id):
     messages.success(request, 'Sản phẩm đã bán thành công!')
 
     return redirect('/')
+
+def user_resume(request):
+    return render(request, 'hosonhanvien.html', {})
