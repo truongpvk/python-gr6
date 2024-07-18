@@ -9,19 +9,33 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Product
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from .models import Product
+
 # Create your views here.
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
-        pwd      = request.POST['password']
+        password = request.POST['password']
 
-        user = authenticate(request, username=username, password=pwd)
+        # Kiểm tra đăng nhập bằng cả số điện thoại và tên đăng nhập
+        user = User.objects.filter(username=username).first()
+        if user is None:
+            user = User.objects.filter(email=username).first()
 
-        if user is not None:
-            login(request, user)
-            return redirect('/')
-        else:
-            messages.success(request, 'Sai tên đăng nhập hoặc mật khẩu!')
+        if user:
+            user = authenticate(request, username=user.username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+        
+        messages.error(request, 'Sai tên đăng nhập hoặc mật khẩu!')
 
     return render(request, 'login.html')
 
@@ -31,22 +45,19 @@ def user_signup(request):
         last_name = request.POST['last-name']
         phone_number = request.POST['phone-number']
         email = request.POST['email']
-        pwd = request.POST['password']
-        re_pwd = request.POST['repeat-password']
+        password = request.POST['password']
+        re_password = request.POST['repeat-password']
 
-        if pwd == re_pwd:
-            try:
-                user = User.objects.create_user(username=phone_number, email=email, first_name=first_name, last_name=last_name, password=pwd)
+        if password == re_password:
+            if not User.objects.filter(username=phone_number).exists():
+                user = User.objects.create_user(username=phone_number, email=email, first_name=first_name, last_name=last_name, password=password)
                 user.save()
                 login(request, user)
                 return redirect('/')
-            except:
-                messages.success(request, 'Lỗi không xác định!')
-                return render(request, 'signup.html')
+            else:
+                messages.error(request, 'Số điện thoại đã được đăng ký!')
         else:
-            messages.success(request, 'Mật khẩu không khớp!')
-            return render(request, 'signup.html')
-            
+            messages.error(request, 'Mật khẩu không khớp!')
 
     return render(request, 'signup.html')
 
